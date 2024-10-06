@@ -4,6 +4,7 @@ import useOnlineStatus from "../utils/useOnlineStatus";
 import cart_icon from "../Assets/cart-logo.PNG";
 import comp_logo from "../Assets/comp-logo.PNG";
 import { useOutletContext } from "react-router-dom";
+import { cartItemsQty } from "../utils/cart_products";
 
 import {
   Disclosure,
@@ -125,7 +126,7 @@ export default function Header({ context }) {
                     className="h-8 w-8 rounded-full"
                   />
                   <span className="absolute top-0 right-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-white text-xs">
-                    2 {/* Fixed number of items */}
+                    {cartItemsQty} {/* Fixed number of items */}
                   </span>
                 </MenuButton>
               </div>

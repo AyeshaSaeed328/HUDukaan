@@ -28,9 +28,9 @@ const Sidebar = () => {
         
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
-             <Link to={`/${Menu.title.toLowerCase()}`}>
+             <Link to={`/${Menu.title.toLowerCase()}` } key={Menu.id}>
             <li
-              key={Menu.id}
+              
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-customPurple text-sm items-center gap-x-4 border-b-2 border-light-white
                `}
             >
