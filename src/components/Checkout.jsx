@@ -87,7 +87,7 @@ const Checkout = () => {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-900"
                 required
               />
             </div>
@@ -101,7 +101,7 @@ const Checkout = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-900"
                 required
               />
             </div>
@@ -118,7 +118,7 @@ const Checkout = () => {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-900"
                 required
               />
             </div>
@@ -136,7 +136,7 @@ const Checkout = () => {
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-900"
                   required
                 />
               </div>
@@ -153,7 +153,7 @@ const Checkout = () => {
                   name="postalCode"
                   value={formData.postalCode}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-900"
                   required
                 />
               </div>
@@ -171,7 +171,7 @@ const Checkout = () => {
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-customPurple focus:border-purple-900"
                 required
               />
             </div>
@@ -207,7 +207,7 @@ const Checkout = () => {
 
             <button
               type="submit"
-              className="w-full bg-customPurple text-white py-3 rounded-md font-semibold hover:bg-purple-700 transition duration-300 ease-in-out"
+              className="w-full bg-customPurple text-white py-3 rounded-md font-semibold hover:bg-purple-900 transition duration-300 ease-in-out"
             >
               Place Order
             </button>
@@ -217,7 +217,7 @@ const Checkout = () => {
       <div className="mt-6 text-center">
         <Link
           to="/"
-          className="text-customPurple hover:text-purple-500 transition duration-300 ease-in-out"
+          className="text-customPurple hover:text-purple-900 transition duration-300 ease-in-out"
         >
           Back to Shopping
         </Link>

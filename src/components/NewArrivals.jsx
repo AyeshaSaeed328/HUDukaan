@@ -19,7 +19,7 @@ const NewArrivals = () => {
         ))}
       </div>
       <Link to="/all-products">
-        <button className="bg-customPurple text-white font-bold py-2 px-4 m-6 rounded hover:bg-purple-500 text-lg block mx-auto mb-16">
+        <button className="bg-customPurple text-white font-bold py-2 px-4 m-6 rounded hover:bg-purple-900 text-lg block mx-auto mb-16">
           Shop More
         </button>
       </Link>

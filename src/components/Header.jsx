@@ -99,7 +99,7 @@ export default function Header({ context }) {
             <Link to="/search">
               <button
                 id="filter-btn"
-                className="bg-customPurple text-white text-sm py-2 px-4 rounded-lg ml-2 mt-5 border border-white hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
+                className="bg-customPurple text-white text-sm py-2 px-4 rounded-lg ml-2 mt-5 border border-white hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
               >
                 
                 Search

@@ -83,7 +83,7 @@ export default function Cart({ open, setOpen }) {
                                 <div className="flex">
                                   <button
                                     type="button"
-                                    className="font-medium text-customPurple hover:text-purple-500"
+                                    className="font-medium text-customPurple hover:text-purple-900"
                                   >
                                     Remove
                                   </button>
@@ -109,7 +109,7 @@ export default function Cart({ open, setOpen }) {
                     <button>
                       <Link
                         to="/checkout"
-                        className="flex items-center justify-center rounded-md w-72 border border-transparent bg-customPurple px-8 py-3 text-base font-medium text-white shadow-sm hover:bg-purple-500 transition duration-300 ease-in-out"
+                        className="flex items-center justify-center rounded-md w-72 border border-transparent bg-customPurple px-8 py-3 text-base font-medium text-white shadow-sm hover:bg-purple-900 transition duration-300 ease-in-out"
                         onClick={() => setOpen(false)}
                       >
                         Checkout
@@ -122,7 +122,7 @@ export default function Cart({ open, setOpen }) {
                       <button
                         type="button"
                         onClick={() => setOpen(false)}
-                        className="font-medium text-customPurple hover:text-purple-500"
+                        className="font-medium text-customPurple hover:text-purple-900"
                       >
                         Continue Shopping
                         <span aria-hidden="true"> &rarr;</span>
