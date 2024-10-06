@@ -32,7 +32,7 @@ export default function Contact() {
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="w-full px-4 py-2 border rounded-md focus:ring-customPurple focus:border-customPurple focus:outline-none"
             required
           />
         </div>
@@ -43,7 +43,7 @@ export default function Contact() {
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="w-full px-4 py-2 border rounded-md focus:ring-customPurple focus:border-customPurple focus:outline-none"
             required
           />
         </div>
@@ -54,7 +54,7 @@ export default function Contact() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="w-full px-4 py-2 border rounded-md focus:ring-customPurple focus:border-customPurple focus:outline-none"
             required
           />
         </div>
@@ -64,7 +64,7 @@ export default function Contact() {
             name="message"
             value={formData.message}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="w-full px-4 py-2 border rounded-md focus:ring-customPurple focus:border-customPurple focus:outline-none"
             rows="4"
             required
           />
