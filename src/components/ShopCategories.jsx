@@ -8,6 +8,7 @@ import { products } from '../utils/products';
 const ShopCategories = ({ category }) => {
     const [displayProducts, setDisplayProducts] = useState(products);
     const { filteredListOfProd } = useOutletContext();
+    const [listOfProd, setListOfProd] = useState(products);
 
     const onlineStatus = useOnlineStatus();
     
