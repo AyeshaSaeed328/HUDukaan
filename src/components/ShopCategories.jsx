@@ -13,14 +13,14 @@ const ShopCategories = ({ category }) => {
     const onlineStatus = useOnlineStatus();
     
     useEffect(() => {
-        if (category === "All Products") {
+        if (category === "All Products" || category === "Search Results") {
             setDisplayProducts(filteredListOfProd || listOfProd);
         } else {
             setDisplayProducts(
                 (filteredListOfProd || listOfProd).filter((prod) => prod.category === category)
             );
         }
-    }, [category, filteredListOfProd, listOfProd]); // Run this effect when any of these dependencies change
+    }, [filteredListOfProd]);
 
     if (onlineStatus === false) {
         return (
