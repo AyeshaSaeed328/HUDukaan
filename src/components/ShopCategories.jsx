@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import useOnlineStatus from '../utils/useOnlineStatus';
 import Shimmer from './Shimmer';
 import ProdCard from './ProdCard';
 import { Link, useOutletContext } from 'react-router-dom';
-import { useState } from 'react';
 import { products } from '../utils/products';
 
-const ShopCategories = (cat, ...props) => {
-    const { category } = cat;
-    // const { listOfProd, filteredListOfProd, setFilteredListOfProd } = useProductList();
-    // console.log(listOfProd);
-    
+const ShopCategories = ({ category }) => {
     const [listOfProd, setListOfProd] = useState(products);
-    const { filteredListOfProd, setFilteredListOfProd } = useOutletContext();
-
-    
+    const [displayProducts, setDisplayProducts] = useState(products);
+    const { filteredListOfProd } = useOutletContext();
 
     const onlineStatus = useOnlineStatus();
-    const displayProducts = filteredListOfProd || listOfProd;
+    
+    useEffect(() => {
+        if (category === "All Products") {
+            setDisplayProducts(filteredListOfProd || listOfProd);
+        } else {
+            setDisplayProducts(
+                (filteredListOfProd || listOfProd).filter((prod) => prod.category === category)
+            );
+        }
+    }, [category, filteredListOfProd, listOfProd]); // Run this effect when any of these dependencies change
 
     if (onlineStatus === false) {
         return (
@@ -30,7 +33,6 @@ const ShopCategories = (cat, ...props) => {
     if (listOfProd.length === 0) {
         return <Shimmer />;
     }
-    
 
     return (
         <div>
@@ -38,13 +40,12 @@ const ShopCategories = (cat, ...props) => {
             <div className="flex flex-wrap mx-8 my-16 p-4">
                 {displayProducts.map((prod) => (
                     <Link key={prod.id} to={"/product/" + prod.id}>
-                        {<ProdCard prodData={prod} />}
-
-                        
+                        <ProdCard prodData={prod} />
                     </Link>
                 ))}
             </div>
         </div>
     );
 };
+
 export default ShopCategories;
