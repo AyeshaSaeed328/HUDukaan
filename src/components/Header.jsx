@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import cart_icon from "../Assets/cart-logo.PNG";
 import comp_logo from "../Assets/comp-logo.PNG";
-import { useOutletContext } from "react-router-dom";
 import { cartItemsQty } from "../utils/cart_products";
+import search_icon from "../Assets/search.png";
 
 import {
   Disclosure,
@@ -12,17 +12,15 @@ import {
   DisclosurePanel,
   Menu,
   MenuButton,
-  MenuItem,
-  MenuItems,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Cart from "./Cart";
 import { products } from "../utils/products";
 
 const navigation = [
   { name: "Home", to: "/", current: true },
   { name: "Contact", to: "/contact", current: false },
-  { name: "Login", to: "/login", current: false },
+  { name: "Login", to: "/", current: false },
 ];
 
 function classNames(...classes) {
@@ -81,6 +79,7 @@ export default function Header({ context }) {
                     aria-current={item.current ? "page" : undefined}
                     className="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                   >
+
                     {item.name}
                   </Link>
                 ))}
@@ -88,23 +87,52 @@ export default function Header({ context }) {
             </div>
           </div>
 
-          <div className="filter-search">
+          <div>
+            <div className="flex">
             <input
               type="text"
-              className="w-96 h-8 py-2 px-4 mb-5 border text-gray-900 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+              className="w-96 h-8 py-2 px-4 border text-gray-900 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
               placeholder="Search"
               value={searchText}
               onChange={handleSearch}
             />
+            
             <Link to="/search">
+            
               <button
-                id="filter-btn"
-                className="bg-customPurple text-white text-sm py-2 px-4 rounded-lg ml-2 mt-5 border border-white hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
-              >
+                id="search-btn"
+                className="bg-customPurple rounded-lg text-white border border-white hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
                 
-                Search
+              >
+                <img className="h-7 rounded-md" src={search_icon}/>       
+                 
+                
+                
               </button>
+              
             </Link>
+             
+            {localStorage.getItem('auth-token') ? (
+    <button
+        id="login-btn"
+        className="bg-customPurple text-white text-xs p-2 rounded-lg ml-3 h-8 border border-white hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
+        onClick={() => { 
+            localStorage.removeItem('auth-token'); 
+            window.location.replace('/');
+        }}
+    >
+        Logout
+    </button>
+) : (
+    <Link style={{ textDecoration: 'none' }} to='/login'>
+        <button className="bg-customPurple text-white text-xs p-2  h-8 rounded-lg ml-3 border border-white hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out">
+            Login
+        </button>
+    </Link>
+)}
+            </div>
+            
+           
           </div>
 
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -134,52 +162,7 @@ export default function Header({ context }) {
             {showCart && <Cart open={showCart} setOpen={setShowCart} />}
 
             {/* Profile dropdown */}
-            <Menu as="div" className="relative ml-3">
-              <div>
-                <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    className="h-8 w-8 rounded-full"
-                  />
-                </MenuButton>
-              </div>
-              <MenuItems
-                transition
-                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-              >
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                  >
-                    Your Profile
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                  >
-                    Settings
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <button
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 w-full text-left"
-                    onClick={() => {
-                      loginBtn === "Login"
-                        ? setloginBtn("Logout")
-                        : setloginBtn("Login");
-                    }}
-                  >
-                    {loginBtn}
-                  </button>
-                </MenuItem>
-              </MenuItems>
-            </Menu>
+            
           </div>
         </div>
       </div>

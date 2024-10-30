@@ -20,7 +20,6 @@ export default function Hero() {
           <div className="w-auto h-64 my-24">
             <img
               src={hu_logo}
-              alt="Description of the photo"
               className="object-cover w-full h-full rounded-lg" // Adjust these classes as needed
             />
           </div>

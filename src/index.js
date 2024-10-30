@@ -9,6 +9,8 @@ import ShopCategories from "./components/ShopCategories";
 import ProdInfo from "./components/ProdInfo";
 import Contact from "./components/Contact";
 import Checkout from "./components/Checkout";
+import Login from "./components/Login/Login";
+import ShopContextProvider from "./Context/ShopContext";
 
 // Lazy load Grocery (if used)
 // const Grocery = React.lazy(() => import("./components/Grocery"));
@@ -26,6 +28,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
       {
         path: "/all-products",
@@ -91,7 +97,9 @@ const appRouter = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={appRouter} /> {/* Provide the router here */}
+    <ShopContextProvider>
+      <RouterProvider router={appRouter} />
+    </ShopContextProvider>
   </React.StrictMode>
 );
 
