@@ -3,24 +3,37 @@ import useOnlineStatus from '../utils/useOnlineStatus';
 import Shimmer from './Shimmer';
 import ProdCard from './ProdCard';
 import { Link, useOutletContext } from 'react-router-dom';
-import { products } from '../utils/products';
+import { ShopContext } from "../Context/ShopContext";
+import { useContext } from 'react';
 
 const ShopCategories = ({ category }) => {
+    
+    const { products } = useContext(ShopContext);
+    console.log(products);
     const [displayProducts, setDisplayProducts] = useState(products);
     const { filteredListOfProd } = useOutletContext();
     const [listOfProd, setListOfProd] = useState(products);
 
     const onlineStatus = useOnlineStatus();
+
+    useEffect(() => {
+        // Check if `products` has loaded, then set initial state for display
+        if (products.length > 0) {
+            setDisplayProducts(products);
+            setListOfProd(products);
+        }
+    }, [products]);
+
     
     useEffect(() => {
         if (category === "All Products" || category === "Search Results") {
-            setDisplayProducts(filteredListOfProd || listOfProd);
+            setDisplayProducts(filteredListOfProd);
         } else {
             setDisplayProducts(
-                (filteredListOfProd || listOfProd).filter((prod) => prod.category === category)
+                (filteredListOfProd).filter((prod) => prod.category.toLowerCase() === category.toLowerCase())
             );
         }
-    }, [filteredListOfProd]);
+    }, [filteredListOfProd, category]);
 
     if (onlineStatus === false) {
         return (
@@ -40,6 +53,7 @@ const ShopCategories = ({ category }) => {
             <div className="flex flex-wrap mx-8 my-16 p-4">
                 {displayProducts.map((prod) => (
                     <Link key={prod.id} to={"/product/" + prod.id}>
+
                         <ProdCard prodData={prod} />
                     </Link>
                 ))}
@@ -49,3 +63,4 @@ const ShopCategories = ({ category }) => {
 };
 
 export default ShopCategories;
+

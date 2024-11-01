@@ -1,12 +1,20 @@
-import { products } from "../utils/products";
+
 import ProdCard from "./ProdCard";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
 
 const NewArrivals = () => {
-  const [listOfProd, setlistOfProd] = useState(
-    products.slice(0, 4)
-  );
+
+  const { products } = useContext(ShopContext);
+  const [listOfProd, setlistOfProd] = useState([]);
+  useEffect(() => {
+    if (products.length > 0) {
+      setlistOfProd(products.slice(0, 4));
+    }
+  }, [products]);
+  
 
   return (
     <div>

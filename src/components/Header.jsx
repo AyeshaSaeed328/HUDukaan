@@ -5,6 +5,9 @@ import cart_icon from "../Assets/cart-logo.PNG";
 import comp_logo from "../Assets/comp-logo.PNG";
 import { cartItemsQty } from "../utils/cart_products";
 import search_icon from "../Assets/search.png";
+import { ShopContext } from "../Context/ShopContext";
+import { useContext } from "react";
+import { useEffect } from "react";
 
 import {
   Disclosure,
@@ -15,7 +18,7 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Cart from "./Cart";
-import { products } from "../utils/products";
+
 
 const navigation = [
   { name: "Home", to: "/", current: true },
@@ -32,7 +35,15 @@ export default function Header({ context }) {
   const [loginBtn, setloginBtn] = useState("Login");
   const [searchText, setSearchText] = useState("");
   const onlineStatus = useOnlineStatus();
+  const { products, getTotalCartItems } = useContext(ShopContext);
   const [listOfProd, setListOfProd] = useState(products);
+  
+  useEffect(() => {
+    if (products.length > 0) {
+      setListOfProd(products);
+    }
+  }, [products]);
+
 
   // Ensure context is not null before destructuring
 
@@ -154,7 +165,7 @@ export default function Header({ context }) {
                     className="h-8 w-8 rounded-full"
                   />
                   <span className="absolute top-0 right-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-white text-xs">
-                    {cartItemsQty} {/* Fixed number of items */}
+                    {getTotalCartItems()} {/* Fixed number of items */}
                   </span>
                 </MenuButton>
               </div>

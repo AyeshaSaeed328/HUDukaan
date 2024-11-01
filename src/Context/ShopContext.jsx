@@ -21,8 +21,9 @@ const ShopContextProvider = (props) => {
         const res = await fetch('http://localhost:4000/getproducts');
         const data = await res.json();
         setProducts(data);
+        console.log("Products Fetched");
       } catch (error) {
-        console.error("Failed to fetch products:", error);
+        console.error("Failed to fetch productss:", error);
       }
     };
 

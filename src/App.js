@@ -6,11 +6,21 @@ import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import NewArrivals from "./components/NewArrivals";
 import { useState } from "react";
-import { products } from "./utils/products";
+import { ShopContext } from "./Context/ShopContext";
+import { useContext } from "react";
+import { useEffect } from "react";
 
 const App = () => {
   const location = useLocation();
-  const [filteredListOfProd, setFilteredListOfProd] = useState(products);
+  const { products, cartItems, removeFromCart, getTotalCartAmount } = useContext(ShopContext);
+  const [filteredListOfProd, setFilteredListOfProd] = useState([]);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setFilteredListOfProd(products);
+    }
+  }, [products]);
+
   console.log(filteredListOfProd);
 
   return (

@@ -7,232 +7,116 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
-
-
-
-
-  const validateEmail = (email) => {
-    if (!email) {
-      return false; // Return false for empty strings or null values
-    }
-    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  }
-
-  const validatePassword = (pass) => {
-    if (!pass) {
-      return false; // Return false for empty strings or null values
-    }
-    return pass.length >= 8;
-  }
-
-  
-
   const [state, setState] = useState("Login");
-  const [data, setData] = useState({ username: "", email: "", password: "" })
-  const changeHandler = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-    
+  const [data, setData] = useState({ username: "", email: "", password: "" });
 
-  }
+  const changeHandler = (e) => setData({ ...data, [e.target.name]: e.target.value });
+
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePassword = (pass) => pass && pass.length >= 8;
 
   const continueHandler = () => {
-    if (!data.email) {
-      // Display an error message if the email is not entered
-      alert('Please enter your email address');
+    if (!validateEmail(data.email) || !validatePassword(data.password)) {
+      alert("Invalid email or password.");
       return;
     }
-    if (!data.password) {
-      // Display an error message if the password is not entered
-      alert('Please enter your password');
-      return;
-    }
-    
-    if (!validateEmail(data.email)) {
-      // Display an error message if the email is not valid for login
-      console.log('Invalid email address');
-      return;
-    }
-    if (!validatePassword(data.password)) {
-      // Display an error message if the password is not valid for signup
-      console.log('Invalid password');
-      return;
-    }
-    // if (!validateName(data.username)) {
-    //   // Display an error message if the password is not valid for signup
-    //   console.log('Invalid name');
-    //   return;
-    // }
-
-    if (state === "Login") {
-      // If it's a login or the email is valid, proceed with login or signup
-      login(data, false);
-    }
-    else {
-      signup(data, false);
-    }
-
-
-
-  }
-
+    state === "Login" ? login(data, false) : signup(data, false);
+  };
 
   const login = async (d, google) => {
-
-    console.log("login", d)
-    let res;
-    await fetch('http://localhost:4000/login', {
+    let res = await fetch('http://localhost:4000/login', {
       method: 'POST',
-      headers: {
-        Accept: 'application/form-data',
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(d),
-    })
-      .then((resp) => resp.json())
-      .then((d) => { res = d });
-    console.log(res);
-    if (google) {
-      if (res.success) {
-        localStorage.setItem('auth-token', res.token);
-        window.location.replace("/");
-      }
-      else {
-        signup(d);
-      }
-    }
-    else {
+    }).then(resp => resp.json());
 
-
-      if (res.success) {
-        localStorage.setItem('auth-token', res.token);
-        window.location.replace("/");
-      }
-      else {
-        alert(res.errors)
-      }
-    }
-  }
-
-  // const login2 = async (data2) => {
-
-  //   console.log("login", data2)
-  //   let res;
-  //   await fetch('http://localhost:4000/login', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/form-data',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(data2),
-  //   })
-  //     .then((resp) => resp.json())
-  //     .then((data2) => { res = data2 });
-  //   console.log(res);
-  //   if (res.success) {
-  //     localStorage.setItem('auth-token', res.token);
-  //     window.location.replace("/");
-  //   }
-  //   else {
-  //     signup2(data2);
-  //   }
-  // }
-
-  const signup = async (d) => {
-    console.log("signup", d)
-    let res;
-    await fetch('http://localhost:4000/signup',
-      {
-        method: "POST",
-        headers: {
-          Accept: 'application/signup-data',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(d),
-
-      }).then((response) => response.json()).then((d) => res = d)
     if (res.success) {
-      console.log("success")
-      localStorage.setItem("auth-token", res.token)
-      window.location.replace("/")
-
-    }
-    else {
+      localStorage.setItem('auth-token', res.token);
+      window.location.replace("/");
+    } else if (google) {
+      signup(d);
+    } else {
       alert(res.errors);
     }
-  }
+  };
 
-  // const signup2 = async (data2) => {
-  //   console.log("signup", data2)
-  //   let res;
-  //   await fetch('http://localhost:4000/signup',
-  //     {
-  //       method: "POST",
-  //       headers: {
-  //         Accept: 'application/signup-data',
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify(data2),
+  const signup = async (d) => {
+    let res = await fetch('http://localhost:4000/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(d),
+    }).then(resp => resp.json());
 
-  //     }).then((response) => response.json()).then((data2) => res = data2)
-  //   if (res.success) {
-  //     console.log("success")
-  //     localStorage.setItem("auth-token", res.token)
-  //     window.location.replace("/")
-
-  //   }
-  //   else {
-  //     alert(res.errors);
-  //   }
-  // }
+    if (res.success) {
+      localStorage.setItem("auth-token", res.token);
+      window.location.replace("/");
+    } else {
+      alert(res.errors);
+    }
+  };
 
   return (
-
-
-    <div className='loginsignup'>
-      <div className="loginsignup-container">
-        {/* <div class="g-signin2" data-onsuccess="onSignIn"></div> */}
-        <h1>{state}</h1>
-        <div className="loginsignup-fields">
-          {state === "Sign Up" ? <input name='username' value={data.username} onChange={changeHandler} type='text' placeholder='Your Name' /> : <></>}
-          <input name='email' value={data.email} onChange={changeHandler} type='email' placeholder='Email Address'></input>
-          <input name='password' value={data.password} onChange={changeHandler} type='password' placeholder='Password'></input>
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-2xl font-semibold text-center mb-6">{state}</h1>
+        <div className="space-y-4">
+          {state === "Sign Up" && (
+            <input
+              name="username"
+              value={data.username}
+              onChange={changeHandler}
+              type="text"
+              placeholder="Your Name"
+              className="w-full p-2 border border-gray-300 rounded-md"
+            />
+          )}
+          <input
+            name="email"
+            value={data.email}
+            onChange={changeHandler}
+            type="email"
+            placeholder="Email Address"
+            className="w-full p-2 border border-gray-300 rounded-md"
+          />
+          <input
+            name="password"
+            value={data.password}
+            onChange={changeHandler}
+            type="password"
+            placeholder="Password"
+            className="w-full p-2 border border-gray-300 rounded-md"
+          />
         </div>
-        {/* <button onClick={()=>{state==="Login"?login():signup()}}>Continue</button> */}
-        <button onClick={continueHandler}>Continue</button>
-
+        <button
+          onClick={continueHandler}
+          className="mt-4 w-full py-2 bg-customPurple text-white rounded-md hover:bg-purple-700 transition"
+        >
+          Continue
+        </button>
         <GoogleOAuthProvider clientId="479057284793-fifo1peddrupv2pii8h7ciidrp1prb4m.apps.googleusercontent.com">
-
           <GoogleLogin
             onSuccess={credentialResponse => {
-              var decoded = jwtDecode(credentialResponse.credential);
-              console.log(decoded);
-              const data2 = {
-                username: decoded.name,
-                email: decoded.email
-
-              }
-              login(data2,true);
-
+              const decoded = jwtDecode(credentialResponse.credential);
+              login({ username: decoded.name, email: decoded.email }, true);
             }}
-            onError={() => {
-              console.log('Login Failed');
-            }}
+            onError={() => console.log('Login Failed')}
+            className="mt-4 w-full"
           />
         </GoogleOAuthProvider>
-
-
-        {state === "Sign Up" ? <p className="loginsignup-login">Already have an account? <span onClick={() => { setState("Login") }}>Login Here</span></p>
-          : <p className="loginsignup-login">Create an account <span onClick={() => { setState("Sign Up") }}>Sign Up</span></p>}
-
-
-        <div className="loginsignup-agree">
-          <input type='checkbox' name='' id='' />
-          <p>By continuing, I agree to the terms of use & privacy policy.</p>
+        <p className="text-center mt-6 text-gray-600">
+          {state === "Sign Up" ? (
+            <>Already have an account? <span className="text-customPurple cursor-pointer" onClick={() => setState("Login")}>Login Here</span></>
+          ) : (
+            <>Create an account <span className="text-customPurple cursor-pointer" onClick={() => setState("Sign Up")}>Sign Up</span></>
+          )}
+        </p>
+        <div className="mt-4 flex items-center">
+          <input type="checkbox" className="mr-2" />
+          <p className="text-gray-600 text-sm">By continuing, I agree to the terms of use & privacy policy.</p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

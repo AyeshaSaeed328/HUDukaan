@@ -26,7 +26,10 @@ export default function Cart({ open, setOpen }) {
           </header>
           <ul className="flex-1 px-6 divide-y divide-gray-200">
             {products.map((product) => {
+              console.log(cartItems[product.id]);
+              console.log(product.id);
               if (cartItems[product.id] > 0) {
+                console.log("bbb");
                 return (
                   <CartItem 
                     key={product.id} 
@@ -42,7 +45,7 @@ export default function Cart({ open, setOpen }) {
           <footer className="border-t border-gray-200 p-6">
             <div className="flex justify-between text-base font-medium text-gray-900">
               <p>Subtotal</p>
-              <p>$122.00</p>
+              <p>PKR {getTotalCartAmount}</p>
             </div>
             <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
             <div className="flex justify-center mt-6">
