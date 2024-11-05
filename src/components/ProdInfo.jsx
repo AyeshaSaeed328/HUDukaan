@@ -1,11 +1,27 @@
 "use client";
 
 import { StarIcon } from "@heroicons/react/24/solid";
+import {useEffect, useState} from "react";
 
 import { useParams } from "react-router-dom";
-import { products } from "../utils/products";
+// import { products } from "../utils/products";
 
 export default function ProdInfo() {
+  const [products, setProducts] = useState([]);
+  const fetchInfo = async () => {
+    try {
+      const res = await fetch('http://localhost:4000/getproducts');
+      const data = await res.json();
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+
   const { prodId } = useParams();
   const product = products.find((prod) => prod.id === Number(prodId));
   const reviews = { href: "#", average: 4, totalCount: 117 };
@@ -15,7 +31,7 @@ export default function ProdInfo() {
       <div className="pt-6">
         <nav aria-label="Breadcrumb" className="max-w-2xl mx-auto px-4">
           <ol className="flex items-center space-x-2">
-            {product.breadcrumbs.map((breadcrumb) => (
+            {product.map((breadcrumb) => (
               <li key={breadcrumb.id} className="flex items-center">
                 <a href={breadcrumb.href} className="text-sm text-gray-900">
                   {breadcrumb.name}
