@@ -105,7 +105,7 @@ const ShopContextProvider = (props) => {
         const res = await fetch('http://localhost:4000/removefromcart', {
           method: 'POST',
           headers: {
-            Accept: 'application/form-data',
+            Accept: 'application/json',
             'auth-token': `${localStorage.getItem("auth-token")}`,
             'Content-Type': 'application/json',
           },
@@ -118,8 +118,20 @@ const ShopContextProvider = (props) => {
       }
     }
   };
+  const getCartItems = () => {
+    let cart = [];
+    for (const item in cartItems) {
+      if (cartItems[item] > 0) {
+        let itemInfo = products.find((product) => product.id === Number(item));
+        if (itemInfo) {
+          cart.push({ ...itemInfo, quantity: cartItems[item] });
+        }
+      }
+    }
+    return cart;
+  }
 
-  const contextValue = { products, getTotalCartItems, cartItems, addToCart, removeFromCart, getTotalCartAmount };
+  const contextValue = { products, getTotalCartItems, cartItems, addToCart, removeFromCart, getTotalCartAmount , getCartItems};
   
   return (
     <ShopContext.Provider value={contextValue}>

@@ -15,8 +15,8 @@ const CartItem = ({ product, quantity, removeFromCart }) => {
         <div className="flex items-center flex-1">
           <img
             className="cartitems-product-icon w-16 h-16 object-cover"
-            src={product.image}
-            alt={product.name}
+            src={product?.image}
+            alt={product?.name}
           />
           <p className="cartitems-product-title ml-4 font-semibold">{product.name}</p>
         </div>

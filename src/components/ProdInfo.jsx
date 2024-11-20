@@ -3,6 +3,8 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
 
 export default function ProdInfo() {
   const [products, setProducts] = useState([]);
@@ -24,6 +26,7 @@ export default function ProdInfo() {
   const { prodId } = useParams();
   const product = products.find((prod) => prod.id === Number(prodId));
   const reviews = { href: "#", average: 4, totalCount: 117 };
+  const{addToCart} = useContext(ShopContext);
 
   if (!product) {
     return <p>Loading...</p>;
@@ -72,6 +75,7 @@ export default function ProdInfo() {
           <button
             type="button"
             className="mt-8 w-full bg-customPurple text-white py-3 rounded-md"
+            onClick={() => {addToCart(product.id)}}
           >
             Add to cart
           </button>

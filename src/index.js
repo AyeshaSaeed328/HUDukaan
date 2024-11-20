@@ -11,6 +11,7 @@ import Contact from "./components/Contact";
 import Checkout from "./components/Checkout";
 import Login from "./components/Login/Login";
 import ShopContextProvider from "./Context/ShopContext";
+import Order from "./components/Order";
 
 // Lazy load Grocery (if used)
 // const Grocery = React.lazy(() => import("./components/Grocery"));
@@ -80,6 +81,10 @@ const appRouter = createBrowserRouter([
     {
       path:"/checkout",
       element: <Checkout />,
+  },
+  {
+    path: "/order",
+    element: <Order />,
   },
 
       // {

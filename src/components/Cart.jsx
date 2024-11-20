@@ -5,14 +5,18 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/re
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem"; // Import the CartItem component
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ShopContext } from "../Context/ShopContext";
+// import { cart_products } from "../utils/cart_products";
 
 export default function Cart({ open, setOpen }) {
-  const { products, cartItems, removeFromCart, getTotalCartAmount } = useContext(ShopContext);
-  console.log("aaa");
-  console.log(products);
-  console.log(cartItems);
+  const { products, cartItems, removeFromCart, getTotalCartAmount, getCartItems } = useContext(ShopContext);
+  
+  useEffect(() => {
+    getCartItems();
+  }, [cartItems]);
+  const cart_products = getCartItems();
+  
   return (
     <Dialog open={open} onClose={() => setOpen(false)} className="relative z-10">
       <DialogBackdrop className="fixed inset-0 bg-gray-500 bg-opacity-75" />
@@ -25,21 +29,16 @@ export default function Cart({ open, setOpen }) {
             </button>
           </header>
           <ul className="flex-1 px-6 divide-y divide-gray-200">
-            {products.map((product) => {
-              console.log(cartItems[product.id]);
-              console.log(product.id);
-              if (cartItems[product.id] > 0) {
-                console.log("bbb");
+            {cart_products.map((product) =>  {
                 return (
                   <CartItem 
                     key={product.id} 
                     product={product} 
-                    quantity={cartItems[product.id]} 
+                    quantity={product.quantity} 
                     removeFromCart={removeFromCart} 
                   />
                 );
-              }
-              return null;
+              
             })}
           </ul>
           <footer className="border-t border-gray-200 p-6">

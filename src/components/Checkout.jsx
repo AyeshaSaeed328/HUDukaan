@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { cart_products } from "../utils/cart_products";
+// import { cart_products } from "../utils/cart_products";
+import { ShopContext } from "../Context/ShopContext";
+import { useContext } from "react";
+import Order from "./Order";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +15,10 @@ const Checkout = () => {
     country: "",
     paymentType: "creditCard",
   });
+  const { products, cartItems, removeFromCart, getTotalCartAmount, getCartItems } = useContext(ShopContext);
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [emptyCart, setEmptyCart] = useState(false);
+  const cart_products = getCartItems();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,20 +33,58 @@ const Checkout = () => {
     console.log(formData);
   };
 
-  const convertPriceToNumber = (priceString) => {
-    return parseFloat(priceString.replace("$", ""));
+  // const convertPriceToNumber = (priceString) => {
+  //   return parseFloat(priceString.replace("$", ""));
+  // };
+  const addOrder = async () => {
+    if (Object.keys(cartItems).length === 0) {
+      setEmptyCart(true);
+      setTimeout(() => {
+        setEmptyCart(false);
+      }, 3000);
+      return;
+    }
+
+    if (localStorage.getItem("auth-token")) {
+      try {
+        const response = await fetch('http://localhost:4000/confirm', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'auth-token': `${localStorage.getItem("auth-token")}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify() // Use requestData instead of undefined data
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error fetching /confirm: ${response.statusText}`);
+        }
+
+        setOrderPlaced(true);
+        setTimeout(() => {
+          setOrderPlaced(false);
+          removeFromCart(null, true); // Reset the cart
+        }, 3000);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
+
+  
 
   
 
   const totalPrice = cart_products.reduce(
     (total, product) =>
-      total + convertPriceToNumber(product.price) * product.quantity,
+      total + product.new_price * product.quantity,
     0
   );
   console.log(totalPrice);
 
   return (
+    
     <div className="container mx-auto p-6">
       <h2 className="text-3xl font-bold mb-6 text-center">Checkout</h2>
       <div className="flex flex-col md:flex-row">
@@ -51,8 +96,8 @@ const Checkout = () => {
       <li key={product.id} className="flex items-center justify-between mb-3">
         {/* Image */}
         <img 
-          src={product?.imageSrc} 
-          alt={product?.imageAlt} 
+          src={product?.image} 
+          alt={product?.name} 
           className="w-16 h-16 object-cover rounded mr-4" 
         />
         {/* Product Info */}
@@ -60,12 +105,17 @@ const Checkout = () => {
           <span>{product.name} (x{product.quantity})</span>
         </div>
         {/* Price */}
-        <span>${(convertPriceToNumber(product.price) * product.quantity).toFixed(2)}</span>
+        <span>PKR{product.new_price * product.quantity}</span>
+        {console.log(product)}
       </li>
     ))}
-    <li className="flex justify-between font-bold border-t border-gray-300 pt-4">
+    <li className="flex justify-between border-t border-gray-300 pt-4">
+    <span>Shipping Charges</span>
+    <span>PKR{150}</span>
+  </li>
+    <li className="flex justify-between font-bold  pt-4">
       <span>Total</span>
-      <span>${totalPrice.toFixed(2)}</span>
+      <span>PKR{ totalPrice + 150}</span>
     </li>
   </ul>
 </div>
@@ -204,13 +254,15 @@ const Checkout = () => {
                 <span className="ml-2">Cash on Delivery</span>
               </label>
             </div>
-
+    {/* <Link to={{ pathname: "/order", state: formData }}> */}
             <button
-              type="submit"
+            type="button"
               className="w-full bg-customPurple text-white py-3 rounded-md font-semibold hover:bg-purple-900 transition duration-300 ease-in-out"
+              onClick={() => addOrder()}
             >
               Place Order
             </button>
+            {/* </Link> */}
           </form>
         </div>
       </div>
@@ -221,6 +273,9 @@ const Checkout = () => {
         >
           Back to Shopping
         </Link>
+      </div>
+      <div>
+        
       </div>
     </div>
   );
