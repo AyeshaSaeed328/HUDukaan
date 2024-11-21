@@ -97,27 +97,56 @@ const ShopContextProvider = (props) => {
     }
   };
 
-  const removeFromCart = async (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+  const removeFromCart = async (itemId, reset=false) => {
     
-    if (localStorage.getItem("auth-token")) {
-      try {
-        const res = await fetch('http://localhost:4000/removefromcart', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'auth-token': `${localStorage.getItem("auth-token")}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ itemId }),
-        });
-        const data = await res.json();
-        console.log(data);
-      } catch (error) {
-        console.error("Failed to remove item from cart:", error);
+    if (reset) {
+      
+      setCartItems(getDefaultCart()); 
+  
+      if (localStorage.getItem("auth-token")) {
+        try {
+          const res = await fetch('http://localhost:4000/resetcart', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'auth-token': `${localStorage.getItem("auth-token")}`,
+              'Content-Type': 'application/json',
+            },
+          });
+  
+          if (!res.ok) {
+            throw new Error(`Error resetting cart: ${res.statusText}`);
+          }
+  
+          console.log("Cart reset successfully");
+        } catch (error) {
+          console.error("Failed to reset cart:", error);
+        }
+      }
+    } else {
+      // Remove a single item
+      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+  
+      if (localStorage.getItem("auth-token")) {
+        try {
+          const res = await fetch('http://localhost:4000/removefromcart', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'auth-token': `${localStorage.getItem("auth-token")}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ itemId }),
+          });
+          const data = await res.json();
+          console.log(data);
+        } catch (error) {
+          console.error("Failed to remove item from cart:", error);
+        }
       }
     }
   };
+  
   const getCartItems = () => {
     let cart = [];
     for (const item in cartItems) {

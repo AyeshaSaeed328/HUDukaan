@@ -12,9 +12,7 @@ import { ShopContext } from "../Context/ShopContext";
 export default function Cart({ open, setOpen }) {
   const { products, cartItems, removeFromCart, getTotalCartAmount, getCartItems } = useContext(ShopContext);
   
-  useEffect(() => {
-    getCartItems();
-  }, [cartItems]);
+  
   const cart_products = getCartItems();
   
   return (

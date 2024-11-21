@@ -1,24 +1,24 @@
-import { useLocation } from "react-router-dom";
+import React from "react";
 
 function Order() {
-  const location = useLocation();
-  console.log(location.state);
-  const { fullName, email, address, city, phone, paymentType } = location.state || {};
-  console.log(location.state);
-  console.log(fullName, email, address, city, phone, paymentType);
-  if (!location.state) {
-    return <div>No data available</div>;
-  }
-
   return (
-    <div>
-      <h1>Order Summary</h1>
-      <p>Full Name: {fullName}</p>
-      <p>Email: {email}</p>
-      <p>Address: {address}</p>
-      <p>City: {city}</p>
-      <p>Phone: {phone}</p>
-      <p>Payment Type: {paymentType}</p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
+      <div className="bg-white shadow-lg rounded-lg p-6 sm:p-8 text-center w-full max-w-sm sm:max-w-md">
+        <h1 className="text-xl sm:text-2xl font-bold text-customPurple">
+          Order Confirmed!
+        </h1>
+        <p className="text-gray-700 mt-4 text-sm sm:text-base">
+          Thank you for your purchase! Your order has been successfully placed.
+        </p>
+        <div className="mt-6">
+          <button
+            className="w-full bg-customPurple hover:bg-purple-800 text-white font-semibold px-4 py-2 rounded-lg shadow"
+            onClick={() => window.location.replace("/")}
+          >
+            Continue Shopping
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

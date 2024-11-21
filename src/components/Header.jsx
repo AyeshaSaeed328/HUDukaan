@@ -37,12 +37,15 @@ export default function Header({ context }) {
   const onlineStatus = useOnlineStatus();
   const { products, getTotalCartItems } = useContext(ShopContext);
   const [listOfProd, setListOfProd] = useState(products);
+  const [numCartItems, setNumCartItems] = useState(getTotalCartItems());
   
   useEffect(() => {
     if (products.length > 0) {
       setListOfProd(products);
     }
   }, [products]);
+
+  
 
 
   // Ensure context is not null before destructuring

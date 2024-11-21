@@ -111,11 +111,11 @@ const Checkout = () => {
     ))}
     <li className="flex justify-between border-t border-gray-300 pt-4">
     <span>Shipping Charges</span>
-    <span>PKR{150}</span>
+    <span>Free Shipping</span>
   </li>
     <li className="flex justify-between font-bold  pt-4">
       <span>Total</span>
-      <span>PKR{ totalPrice + 150}</span>
+      <span>PKR{ totalPrice}</span>
     </li>
   </ul>
 </div>
@@ -254,7 +254,7 @@ const Checkout = () => {
                 <span className="ml-2">Cash on Delivery</span>
               </label>
             </div>
-    {/* <Link to={{ pathname: "/order", state: formData }}> */}
+    <Link to={{ pathname: "/order", state: formData }}>
             <button
             type="button"
               className="w-full bg-customPurple text-white py-3 rounded-md font-semibold hover:bg-purple-900 transition duration-300 ease-in-out"
@@ -262,7 +262,7 @@ const Checkout = () => {
             >
               Place Order
             </button>
-            {/* </Link> */}
+            </Link>
           </form>
         </div>
       </div>
