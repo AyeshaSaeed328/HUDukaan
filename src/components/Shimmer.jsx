@@ -1,24 +1,22 @@
+import React from 'react';
+
 const Shimmer = () => {
-    return (
-
-        <div className="body">
-            <div className="filter-search">
-            <input type="text" className="w-full py-2 px-4 pl-10 border text-gray-900 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-                 placeholder="Search"/>
-            <button id="filter-btn"  className="bg-blue-500 text-white py-2 px-4 rounded-lg ml-[1180px] mt-5 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
-                 >Top Rated Restaurant</button>
-            </div>
-            <div className="rest-container">
-                {Array.from({ length: 10 }).map((_, index) => (
-                    <div className="rest-card" key={index}>
-                        <div className="res-img-shimmer"></div>
-                        <div className="text-shimmer"></div>
-                        <div className="text-shimmer"></div>
-                    </div>))}
-
-
-            </div>
+  return (
+    <div className="flex flex-wrap p-5 m-16">
+      
+      {Array.from({ length: 10 }).map((_, index) => (
+        <div
+          className="animate-pulse bg-white rounded-lg shadow-md p-4 m-4 w-[300px] h-[350px] hover:shadow-2xl hover:cursor-pointer hover:scale-95 transition-transform duration-300 ease-in-out"
+          key={index}
+        >
+          <div className="w-full h-[200px] bg-slate-200 rounded-md mb-4"></div>
+          <div className="h-4 bg-slate-200 rounded-md mb-2"></div>
+          <div className="h-4 bg-slate-200 rounded-md mb-2"></div>
+          <div className="h-4 bg-slate-200 rounded-md w-3/4"></div>
         </div>
-    )
-}
+      ))}
+    </div>
+  );
+};
+
 export default Shimmer;

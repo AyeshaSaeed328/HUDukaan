@@ -1,9 +1,6 @@
-import { useState } from "react";
-import control_img from "../Assets/control.png";
 import { Link } from "react-router-dom";
 
-const Sidebar = () => {
-  const [open, setOpen] = useState(false);
+const Sidebar = ({ close }) => {
   const Menus = [
     { title: "All-Products", id: 1 },
     { title: "Clothing", id: 2 },
@@ -14,34 +11,24 @@ const Sidebar = () => {
   ];
 
   return (
-    <div
-      className={`${
-        open ? "w-72" : "w-0"
-      } h-screen p-4 pt-8 relative bg-neutral-100 transition-all duration-300 ease-in-out overflow-hidden`}
-    >
-      {/* Sidebar toggle button */}
-      <img
-        src={control_img}
-        className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple border-2 rounded-full transition-all duration-300 ease-in-out ${
-          !open ? "rotate-180" : ""
-        }`}
-        onClick={() => setOpen(!open)}
-      />
-
+    <div className="h-full w-[300px] p-2 pt-8 bg-white rounded-lg overflow-hidden">
       {/* Sidebar menu items */}
-      <ul className="pt-6">
+      <div className="flex flex-col items-start space-y-4 w-full">
         {Menus.map((Menu) => (
-          <Link to={`/${Menu.title.toLowerCase()}`} key={Menu.id}>
-            <li
-              className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-customPurple text-sm items-center gap-x-4 border-b-2 border-light-white`}
-            >
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
-                {Menu.title}
-              </span>
-            </li>
+          <Link
+            to={`/${Menu.title.toLowerCase()}`}
+            key={Menu.id}
+            onClick={() => close()
+               
+            } 
+            className="w-full"
+          >
+            <div className="flex items-center gap-x-4 p-2 rounded-md cursor-pointer w-full text-gray-800 hover:bg-customPurple hover:text-white transform hover:scale-105 transition-all duration-200 ease-in-out">
+              <div className="font-semibold text-lg w-full">{Menu.title}</div>
+            </div>
           </Link>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

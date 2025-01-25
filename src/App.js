@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom"; // Added useLocation for route checking
 import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+// import Sidebar from "./components/Sidebar";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import NewArrivals from "./components/NewArrivals";
@@ -27,9 +27,9 @@ const App = () => {
     <div>
 
       <div className="flex">
-        <span>
+        {/* <span>
           <Sidebar />
-        </span>
+        </span> */}
 
         <div className="w-full">
           <Header context={{ filteredListOfProd, setFilteredListOfProd }}/>
