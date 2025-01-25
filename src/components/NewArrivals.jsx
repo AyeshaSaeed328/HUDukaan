@@ -19,7 +19,7 @@ const NewArrivals = () => {
   return (
     <div>
       <h3 className="text-2xl font-medium text-center mt-16">New Arrivals</h3>
-      <div className="flex flex-wrap mx-8 mt-8 p-4">
+      <div className="flex flex-wrap mx-8 mt-8 p-4 items-center justify-center">
         {listOfProd.map((prod) => (
           <Link key={prod.id} to={"/product/" + prod.id}>
             <ProdCard prodData={prod} />
